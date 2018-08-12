@@ -28,6 +28,7 @@
       :number="type === 'number'"
       v-else
       :type="type"
+      pattern="[0-9]*"
       @focus="active = true"
       :disabled="disabled"
       :readonly="readonly"

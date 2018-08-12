@@ -1,95 +1,121 @@
 <template>
   <div class="account-create">
     <div class="part-1">
-      <mt-field placeholder="请输入用户名" v-model="money"></mt-field>
-      <mt-cell title="借款" icon="loan"  is-link @click.native="popupVisible = true"></mt-cell>
-      <mt-popup
-        class="jiekuan"
-        v-model="popupVisible"
-        position="bottom">
-        <mt-picker :slots="slots" @change="onValuesChange" :visible-item-count="3"></mt-picker>      
-      </mt-popup>
-      <mt-cell :title="title" icon="calendar" is-link @click.native="$refs.picker.open();"></mt-cell>
-      <mt-field label=" " icon="bianji" placeholder="备注..." v-model="remark"></mt-field>
-      <mt-datetime-picker
-        ref="picker"
-        type="date"
-        year-format="{value} 年"
-        month-format="{value} 月"
-        date-format="{value} 日"
-        v-model="time">
-      </mt-datetime-picker>
+      <mt-field class="loan-input" placeholder="金额" type="number" v-model="loanMoney"></mt-field>
+      <mt-cell title="借款" is-link @click.native="loanVisible = true">
+        <span slot="icon">
+          <i class="mintui mintui-loan icon"></i>
+        </span>
+      </mt-cell>
+      <mt-cell :title="_loanTime" is-link @click.native="$refs.loanPicker.open();">
+        <span slot="icon">
+          <i class="mintui mintui-calendar icon"></i>
+        </span>
+      </mt-cell>
+      <mt-field label="" placeholder="备注..." v-model="remark">
+        <span slot="icon">
+          <i class="mintui mintui-bianji icon"></i>
+        </span>
+      </mt-field>
     </div>
     <div class="part-2">
       <mt-cell title="借款人/平台" value="配置名称" is-link></mt-cell>
-      <mt-cell title="还款计划"><mt-switch v-model="open"></mt-switch></mt-cell>
+      <mt-cell title="还款计划"><mt-switch v-model="repaymentPlan"></mt-switch></mt-cell>
     </div>
     <div class="part-3">
       <mt-cell title="还款方式" value="请选择还款方式" is-link></mt-cell>
-      <mt-field label="还款金额" placeholder="如：100" type="number" v-model="money"></mt-field>
-      <mt-field label="总期数" placeholder="请填写总期数" type="number" v-model="allTimes"></mt-field>
-      <mt-field label="当前期数" placeholder="请填写当前期数" type="number" v-model="currentTime"></mt-field>
+      <mt-field label="还款金额" placeholder="如：100" type="number" v-model="repaymentMoney"></mt-field>
+      <mt-field label="总期数" placeholder="请填写总期数" type="number" v-model="repaymentNums"></mt-field>
+      <mt-field label="当前期数" placeholder="请填写当前期数" type="number" v-model="currentNum"></mt-field>
     </div>
     <div class="part-4">
-      <mt-cell title="还款日期" icon="calendar" :value="value" is-link @click.native="$refs.picker2.open();"></mt-cell>
-      <mt-cell title="还款提醒" value="提前一天" is-link></mt-cell>
+      <mt-cell title="还款日期" :value="_repaymentTime" is-link @click.native="$refs.repaymentPicker.open();"></mt-cell>
+      <mt-cell title="还款提醒" :value="remindTime" is-link  @click.native="remindVisible = true"></mt-cell>
+    </div>
+    <div class="part-5">
+      <mt-button type="primary" size="large">保存</mt-button>
+    </div>
+    <div class="part-6">
+      <mt-popup
+        class="loan"
+        v-model="loanVisible"
+        position="bottom">
+        <mt-picker :slots="loanSlots" @change="onLoanChange" :visible-item-count="3"></mt-picker>      
+      </mt-popup>
       <mt-datetime-picker
-        ref="picker2"
+        ref="loanPicker"
         type="date"
         year-format="{value} 年"
         month-format="{value} 月"
         date-format="{value} 日"
-        v-model="huankuan">
+        v-model="loanTime">
       </mt-datetime-picker>
-    </div>
-    <div class="part-5">
-      <mt-button type="primary" size="large">保存</mt-button>
+      <mt-datetime-picker
+        ref="repaymentPicker"
+        type="date"
+        year-format="{value} 年"
+        month-format="{value} 月"
+        date-format="{value} 日"
+        v-model="repaymentTime">
+      </mt-datetime-picker>
+      <mt-popup
+        class="remind"
+        v-model="remindVisible"
+        position="bottom">
+        <mt-picker :slots="remindSlots" @change="onRemindChange" :visible-item-count="3"></mt-picker>      
+      </mt-popup>
     </div>
   </div>
 </template>
 <script>
 import moment from "moment";
-import MtField from '../components/field'
-import Card from "../widget/card";
+import MtField from "../components/field";
 export default {
-  components: { Card, MtField },
+  components: { MtField },
   data() {
     return {
-      money: 5000,
-      slots: [
+      loanMoney: "",
+      loanSlots: [
         {
           flex: 1,
-          values: [
-            "2015-01",
-            "2015-02",
-            "2015-03",
-            "2015-04",
-            "2015-05",
-            "2015-06"
-          ],
-          className: "slot1",
+          values: ["借款", "收入"],
+          className: "loan-slot",
           textAlign: "center"
         }
       ],
-      time: void 0,
+      loanTime: void 0,
+      loanVisible: false,
       remark: "",
-      open: false,
-      allTimes: "",
-      currentTime: "",
-      huankuan: void 0,
-      popupVisible: false
+      repaymentPlan: false,
+      repaymentMoney: "",
+      repaymentNums: "",
+      currentNum: "",
+      repaymentTime: void 0,
+      remindVisible: false,
+      remindSlots: [
+        {
+          flex: 1,
+          values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+          className: "remind-slot",
+          textAlign: "center"
+        }
+      ],
+      remindTime: void 0
     };
   },
   methods: {
-    onValuesChange() {}
+    onLoanChange(vm, value) {},
+    onRemindChange(vm, value) {
+      this.remindTime = `提前 ${value[0]} 天`;
+    }
   },
   computed: {
-    title() {
-      return moment(this.time).format("YYYY年MM月DD日");
+    _loanTime() {
+      return moment(this.loanTime).format("YYYY年MM月DD日");
     },
-    value() {
-      return this.huankuan
-        ? moment(this.huankuan).format("YYYY年MM月DD日")
+    _repaymentTime() {
+      return this.repaymentTime
+        ? moment(this.repaymentTime).format("YYYY年MM月DD日")
         : "请选择每月还款日期";
     }
   }
@@ -105,9 +131,13 @@ export default {
   padding-left: 0.2rem;
 }
 .part-5 {
-  padding: .3rem;
+  padding: 0.3rem;
 }
-.jiekuan {
+.loan,
+.remind {
   width: 100%;
+}
+.icon {
+  padding-right: 0.3rem;
 }
 </style>
