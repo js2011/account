@@ -20,20 +20,20 @@
     </div>
     <div class="part-2">
       <mt-cell title="借款人/平台" value="配置名称" is-link></mt-cell>
-      <mt-cell title="还款计划"><mt-switch v-model="repaymentPlan"></mt-switch></mt-cell>
+      <!-- <mt-cell title="还款计划"><mt-switch v-model="repaymentPlan"></mt-switch></mt-cell> -->
     </div>
     <div class="part-3">
-      <mt-cell title="还款方式" value="请选择还款方式" is-link></mt-cell>
+      <!-- <mt-cell title="还款方式" value="请选择还款方式" is-link></mt-cell> -->
       <mt-field label="还款金额" placeholder="如：100" type="number" v-model="repaymentMoney"></mt-field>
       <mt-field label="总期数" placeholder="请填写总期数" type="number" v-model="repaymentNums"></mt-field>
       <mt-field label="当前期数" placeholder="请填写当前期数" type="number" v-model="currentNum"></mt-field>
     </div>
     <div class="part-4">
       <mt-cell title="还款日期" :value="_repaymentTime" is-link @click.native="$refs.repaymentPicker.open();"></mt-cell>
-      <mt-cell title="还款提醒" :value="remindTime" is-link  @click.native="remindVisible = true"></mt-cell>
+      <mt-cell title="还款提醒" :value="_remindTime" is-link  @click.native="remindVisible = true"></mt-cell>
     </div>
     <div class="part-5">
-      <mt-button type="primary" size="large">保存</mt-button>
+      <mt-button type="primary" size="large" @click="save">保存</mt-button>
     </div>
     <div class="part-6">
       <mt-popup
@@ -106,7 +106,35 @@ export default {
   methods: {
     onLoanChange(vm, value) {},
     onRemindChange(vm, value) {
-      this.remindTime = `提前 ${value[0]} 天`;
+      this.remindTime = value[0];
+    },
+    save() {
+      let vm = this
+      debugger
+      this.$snc.fetch({
+        url: 'http://res.txingdai.com/account/save',
+        method: 'POST',
+        referer: "http://sina.cn", 
+        data: {
+          totalBorrow: vm.loanMoney,
+          type: 84,
+          borrowDate: moment(vm.loanTime).format('YYYY-MM-DD'),
+          memo: vm.remark,
+          productId: 1,
+          repaymentMoney: vm.repaymentMoney,
+          totalPeriod: vm.repaymentNums,
+          currentPeriod: vm.currentNum,
+          date: moment(vm.repaymentTime).format('DD'),
+          noticeDate: vm.remindTime,
+          noteiceTime: '12:30'
+        },
+        success(res) {
+          debugger
+          if (res.code === 10200) {
+            vm.$snc.URLNavigateTo({id: 'account', action: 'hybrid', title: '记账'})
+          }
+        }
+      })
     }
   },
   computed: {
@@ -117,6 +145,9 @@ export default {
       return this.repaymentTime
         ? moment(this.repaymentTime).format("YYYY年MM月DD日")
         : "请选择每月还款日期";
+    },
+    _remindTime() {
+      return `提前 ${this.remindTime} 天`;
     }
   }
 };

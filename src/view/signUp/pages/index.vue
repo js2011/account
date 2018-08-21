@@ -4,7 +4,7 @@
     <span class="info">欢迎使用黄金钱包</span>
     <mt-field class="phone" label="+86" type="tel" placeholder="请输入手机号" v-model="phone"></mt-field>
     <div class="next">
-      <span>下一步</span>
+      <span @click="jump">下一步</span>
     </div>
   </div>
 </template>
@@ -16,6 +16,11 @@ export default {
   data () {
     return {
       phone: ''
+    }
+  },
+  methods: {
+    jump () {
+      this.$snc.URLNavigateTo({id: 'sign-in', action: 'hybrid', title: '注册'})
     }
   }
 }

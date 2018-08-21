@@ -4,8 +4,8 @@
     <span class="info">请输入 {{18500181234}} 收到的验证码</span>
     <mt-field class="code" type="number" placeholder="验证码" v-model="code"></mt-field>
     <div class="next">
-      <span class="get-code">获取验证码</span>
-      <span class="sign-in">登录</span>
+      <span class="get-code" @click="getCode">获取验证码</span>
+      <span class="sign-in" @click="signIn">登录</span>
     </div>
   </div>
 </template>
@@ -17,6 +17,39 @@ export default {
   data () {
     return {
       code: ''
+    }
+  },
+  methods: {
+    signIn() {
+      let vm = this
+      this.$snc.fetch({
+        url: 'http://res.txingdai.com/account/login',
+        method: 'POST',
+        data: {
+          phone: '18500186502',
+          code: vm.code
+        },
+        success(res) {
+          debugger
+          if (res.code === 10200){
+            vm.$snc.URLNavigateTo({id: 'account-create', action: 'hybrid', title: '收入-借款'})
+          }
+        }
+      })
+    },
+    getCode() {
+      let vm = this
+      this.$snc.fetch({
+        url: 'http://res.txingdai.com/account/code',
+        data: {
+          phone: '18500186502',
+          develop: true
+        },
+        success(res) {
+          vm.code = res.data
+          debugger
+        }
+      })
     }
   }
 }
@@ -43,6 +76,7 @@ export default {
     margin: .2rem 0;
   }
   .sign-in-page .next .get-code {
+    cursor: pointer;
     color: rgba(32, 108, 255, .9);
   }
   .sign-in-page .next .sign-in {

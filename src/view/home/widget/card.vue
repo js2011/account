@@ -1,16 +1,16 @@
 <template>
   <div class="account-card">
     <div class="header">
-      <img src="" alt="">
-      <span class="title">花借</span>
+      <img class="icon" :src="data.productIcon">
+      <span class="title">{{data.productName}}</span>
     </div>
     <div class="content">
       <div class="money">
-        <span class="super">{{'1000.00'}}</span>
+        <span class="super">{{data.repaymentMoney}}</span>
         <span class="sub">应还金额(元)</span>
       </div>
       <div class="date">
-        <span class="super">{{25}}</span>
+        <span class="super">{{moment(data.repaymentDate).format('YYYY-MM-DD')}}</span>
         <span class="sub">剩余还款日期</span>
       </div>
       <div class="option">
@@ -20,8 +20,12 @@
   </div>
 </template>
 <script>
+import moment from 'moment'
 export default {
-  
+  props: {data: Object},
+  data() {
+    return {moment}
+  }
 }
 </script>
 <style scoped>
@@ -34,6 +38,9 @@ export default {
     margin: 0 .2rem;
     padding: .15rem 0;
     border-bottom: 1px solid rgb(247, 247, 250);
+  }
+  .header .icon {
+    width: .8rem;
   }
   .header .title {
     font-weight: 500;

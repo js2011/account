@@ -4,34 +4,67 @@
       <div class="banner-top">
         <span class="sp1">记账</span>
         <span class="sp2">近30天应还(元)</span>
-        <span class="sp3">{{`0.00`}}</span>
+        <span class="sp3">{{this.homeData.repayMoney}}</span>
       </div>
       <div class="banner-bottom">
         <div class="date">
           <span class="date-sp1">最近还款日</span>
-          <span class="date-sp2">{{'2018-08-09'}}</span>
+          <span class="date-sp2">{{moment(this.homeData.repayDate).format('YYYY-MM-DD')}}</span>
         </div>
         <div class="allmoney">
           <span class="allmoney-sp1">应还总额(元)</span>
-          <span class="allmoney-sp2">{{'6,089.21'}}</span>
+          <span class="allmoney-sp2">{{this.homeData.total30Money}}</span>
         </div>
       </div>
     </div>
     <div class="content">
-      <div class="addBtn">
+      <div class="addBtn" @click="addOne">
         <span>记一笔</span>
         <span style="float:right;">+</span>
       </div>
     </div>
     <div class="accounts">
-      <card></card>
+      <card v-for="data in homeData.list" :key="data.id" :data="data" style="margin: .2rem 0;"></card>
     </div>
   </div>
 </template>
 <script>
 import Card from '../widget/card'
+import moment from 'moment'
 export default {
-  components: {Card}
+  components: {Card},
+  data() {
+    return {
+      moment,
+      homeData: {}
+    }
+  },
+  created () {
+    let vm = this
+    vm.$snc.onPullDownRefresh({
+      success () {
+        setTimeout(() => {
+          vm.$snc.stopPullDownRefresh({
+            msg: `更新了${10}条信息`
+          })
+        }, 500)
+      }
+    })
+    this.$snc.fetch({
+      url: 'http://res.txingdai.com/account/list',
+      success(res) {
+        if (res.code === 10200) {
+          debugger
+          vm.homeData = res.data
+        }
+      }
+    })
+  },
+  methods: {
+    addOne () {
+      this.$snc.URLNavigateTo({id: 'sign-up', action: 'hybrid', title: '注册'})
+    }
+  }
 }
 </script>
 <style scoped>
