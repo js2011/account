@@ -19,7 +19,7 @@
       </mt-field>
     </div>
     <div class="part-2">
-      <mt-cell title="借款人/平台" value="配置名称" is-link></mt-cell>
+      <mt-cell title="借款人/平台" value="配置名称" is-link @click.native="selectPlatform"></mt-cell>
       <!-- <mt-cell title="还款计划"><mt-switch v-model="repaymentPlan"></mt-switch></mt-cell> -->
     </div>
     <div class="part-3">
@@ -114,7 +114,7 @@ export default {
       this.$snc.fetch({
         url: 'http://res.txingdai.com/account/save',
         method: 'POST',
-        referer: "http://sina.cn", 
+        // referer: "http://sina.cn",
         data: {
           totalBorrow: vm.loanMoney,
           type: 84,
@@ -135,6 +135,9 @@ export default {
           }
         }
       })
+    },
+    selectPlatform() {
+      this.$snc.URLNavigateTo({id: 'platform', action: 'hybrid', title: '收入-借款'})
     }
   },
   computed: {

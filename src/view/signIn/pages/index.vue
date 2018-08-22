@@ -41,6 +41,7 @@ export default {
       let vm = this
       this.$snc.fetch({
         url: 'http://res.txingdai.com/account/code',
+        method: 'GET',
         data: {
           phone: '18500186502',
           develop: true
