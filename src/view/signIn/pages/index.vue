@@ -1,7 +1,7 @@
 <template>
   <div class="sign-in-page">
     <span class="title">注册</span>
-    <span class="info">请输入 {{18500181234}} 收到的验证码</span>
+    <span class="info">请输入 {{ext.phone}} 收到的验证码</span>
     <mt-field class="code" type="number" placeholder="验证码" v-model="code"></mt-field>
     <div class="next">
       <span class="get-code" @click="getCode">获取验证码</span>
@@ -13,6 +13,7 @@
 import MtField from "../components/field";
 
 export default {
+  inject: ['ext'],
   components: {MtField},
   data () {
     return {
@@ -26,13 +27,16 @@ export default {
         url: 'http://res.txingdai.com/account/login',
         method: 'POST',
         data: {
-          phone: '18500186502',
+          phone: vm.ext.phone,
           code: vm.code
         },
         success(res) {
           debugger
           if (res.code === 10200){
-            vm.$snc.URLNavigateTo({id: 'account-create', action: 'hybrid', title: '收入-借款'})
+            vm.$snc.setGlobalStorage({
+              user: {phone: vm.ext.phone}
+            })
+            vm.$snc.URLNavigateTo({id: 'account', actionType: 100, title: '记账'})
           }
         }
       })
@@ -43,7 +47,7 @@ export default {
         url: 'http://res.txingdai.com/account/code',
         method: 'GET',
         data: {
-          phone: '18500186502',
+          phone: vm.ext.phone,
           develop: true
         },
         success(res) {
@@ -52,7 +56,8 @@ export default {
         }
       })
     }
-  }
+  },
+  created() {}
 }
 </script>
 <style>

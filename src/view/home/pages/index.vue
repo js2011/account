@@ -1,5 +1,6 @@
 <template>
   <div class="account-home">
+    <button @click="logout">退出登录</button>
     <div class="banner">
       <div class="banner-top">
         <span class="sp1">记账</span>
@@ -9,7 +10,7 @@
       <div class="banner-bottom">
         <div class="date">
           <span class="date-sp1">最近还款日</span>
-          <span class="date-sp2">{{moment(this.homeData.repayDate).format('YYYY-MM-DD')}}</span>
+          <span class="date-sp2">{{moment(this.homeData.repayDate || undefined).format('YYYY-MM-DD')}}</span>
         </div>
         <div class="allmoney">
           <span class="allmoney-sp1">应还总额(元)</span>
@@ -19,8 +20,9 @@
     </div>
     <div class="content">
       <div class="addBtn" @click="addOne">
+        <span style="font-size:.5rem;font-weight:400;">+</span>
         <span>记一笔</span>
-        <span style="float:right;">+</span>
+        <!-- <span style="float:right;">+</span> -->
       </div>
     </div>
     <div class="accounts">
@@ -32,6 +34,7 @@
 import Card from '../widget/card'
 import moment from 'moment'
 export default {
+  props: {user: Object},
   components: {Card},
   data() {
     return {
@@ -43,6 +46,7 @@ export default {
     let vm = this
     vm.$snc.onPullDownRefresh({
       success () {
+        vm.loadData();
         setTimeout(() => {
           vm.$snc.stopPullDownRefresh({
             msg: `更新了${10}条信息`
@@ -50,19 +54,31 @@ export default {
         }, 500)
       }
     })
-    this.$snc.fetch({
-      url: 'http://res.txingdai.com/account/list',
-      success(res) {
-        if (res.code === 10200) {
-          debugger
-          vm.homeData = res.data
-        }
-      }
-    })
+    this.loadData()
   },
   methods: {
+    loadData() {
+      let vm = this
+      this.$snc.fetch({
+        url: 'http://res.txingdai.com/account/list',
+        success(res) {
+          if (res.code === 10200) {
+            vm.homeData = res.data
+          }
+        }
+      })
+    },
+    logout() {
+      this.$snc.setGlobalStorage({
+        user: {}
+      })
+    },
     addOne () {
-      this.$snc.URLNavigateTo({id: 'sign-up', action: 'hybrid', title: '注册'})
+      if (this.user && this.user.phone) {
+        this.$snc.URLNavigateTo({id: 'account-create', action: 'hybrid', title: '收入-借款'});
+        return
+      }
+      this.$snc.URLNavigateTo({id: 'sign-up', actionType: 99, title: '注册'});
     }
   }
 }
@@ -70,11 +86,11 @@ export default {
 <style scoped>
   .banner-top {
     height: 4.2rem;
-    background: linear-gradient(90deg, rgba(252, 80, 39, 0.9) , rgb(252, 120, 31));
+    background: linear-gradient(90deg, rgba(250, 210, 11, 1) , rgb(250, 210, 11));
   }
   .banner-top span {
     display: block;
-    color: #fff;
+    color: #000;
     text-align: center;
   }
   .banner-top .sp1 {
@@ -95,11 +111,11 @@ export default {
     justify-content: space-around;
     align-items: center;
     height: 1.4rem;
-    background: linear-gradient(90deg, rgba(252, 96, 55, 0.9) , rgb(240, 132, 48));
+    background: linear-gradient(90deg, rgba(250, 226, 63, 1) , rgb(250, 226, 63));
   }
   .banner-bottom span {
     display: block;
-    color: #fff;
+    color: #000;
     text-align: center;
   }
   .date .date-sp1, .allmoney .allmoney-sp1 {
@@ -112,16 +128,16 @@ export default {
   .addBtn {
     height: 1rem;
     line-height: 1rem;
-    color: #fff;
+    color: #000;
     margin: 0.3rem;
     padding: 0 .4rem;
-    border-radius: 0.1rem;
-    background: linear-gradient(90deg, rgb(43, 121, 253) , rgba(42, 70, 212, 0.902));
+    border-radius: 1rem;
+    background: linear-gradient(90deg, rgb(247, 172, 19) , rgba(248, 228, 11, 1));
     font-size: .35rem;
     font-weight: 700;
     text-align: center;
-    border-right: 1px solid rgba(42, 70, 212, 0.902);
-    box-shadow: .01rem .03rem .2rem rgb(112, 159, 241);
+    border-right: 1px solid rgba(248, 228, 11, 1);
+    box-shadow: .01rem .03rem .2rem rgb(247, 172, 19);
   }
   .accounts {
     margin: .6rem .3rem;

@@ -2,7 +2,7 @@
   <div class="account-create">
     <div class="part-1">
       <mt-field class="loan-input" placeholder="金额" type="number" v-model="loanMoney"></mt-field>
-      <mt-cell title="借款" is-link @click.native="loanVisible = true">
+      <mt-cell title="借款" is-link @click.native="loanVisible = false">
         <span slot="icon">
           <i class="mintui mintui-loan icon"></i>
         </span>
@@ -19,7 +19,12 @@
       </mt-field>
     </div>
     <div class="part-2">
-      <mt-cell title="借款人/平台" value="配置名称" is-link @click.native="selectPlatform"></mt-cell>
+      <mt-cell title="借款人/平台" :value="platform.name" is-link @click.native="selectPlatform">
+        <div>
+          <img class="platform-logo" :src="platform.logo">
+          <span>{{platform.name}}</span>
+        </div>
+      </mt-cell>
       <!-- <mt-cell title="还款计划"><mt-switch v-model="repaymentPlan"></mt-switch></mt-cell> -->
     </div>
     <div class="part-3">
@@ -33,7 +38,7 @@
       <mt-cell title="还款提醒" :value="_remindTime" is-link  @click.native="remindVisible = true"></mt-cell>
     </div>
     <div class="part-5">
-      <mt-button type="primary" size="large" @click="save">保存</mt-button>
+      <mt-button class="save" type="primary" size="large" @click="save">保存</mt-button>
     </div>
     <div class="part-6">
       <mt-popup
@@ -45,6 +50,7 @@
       <mt-datetime-picker
         ref="loanPicker"
         type="date"
+        :start-date="moment().subtract(30, 'days').toDate()"
         year-format="{value} 年"
         month-format="{value} 月"
         date-format="{value} 日"
@@ -53,6 +59,7 @@
       <mt-datetime-picker
         ref="repaymentPicker"
         type="date"
+        :start-date="new Date()"
         year-format="{value} 年"
         month-format="{value} 月"
         date-format="{value} 日"
@@ -70,10 +77,13 @@
 <script>
 import moment from "moment";
 import MtField from "../components/field";
+import crossEvent from  "@mfelibs/universal-framework/src/libs/apis/crossEvent";
 export default {
   components: { MtField },
   data() {
     return {
+      moment,
+      platform: {id: '', name: '配置名称'},
       loanMoney: "",
       loanSlots: [
         {
@@ -110,17 +120,16 @@ export default {
     },
     save() {
       let vm = this
-      debugger
       this.$snc.fetch({
         url: 'http://res.txingdai.com/account/save',
         method: 'POST',
         // referer: "http://sina.cn",
         data: {
           totalBorrow: vm.loanMoney,
-          type: 84,
+          type: 1,
           borrowDate: moment(vm.loanTime).format('YYYY-MM-DD'),
           memo: vm.remark,
-          productId: 1,
+          productId: vm.platform.id,
           repaymentMoney: vm.repaymentMoney,
           totalPeriod: vm.repaymentNums,
           currentPeriod: vm.currentNum,
@@ -129,9 +138,9 @@ export default {
           noteiceTime: '12:30'
         },
         success(res) {
-          debugger
           if (res.code === 10200) {
-            vm.$snc.URLNavigateTo({id: 'account', action: 'hybrid', title: '记账'})
+            // vm.$snc.URLNavigateTo({id: 'account', action: 'hybrid', title: '记账'})
+            vm.$snc.navigateBack();
           }
         }
       })
@@ -152,6 +161,21 @@ export default {
     _remindTime() {
       return `提前 ${this.remindTime} 天`;
     }
+  },
+  created() {
+    let vm = this;
+    vm.$snc.onPullDownRefresh({
+      success() {
+        setTimeout(() => {
+          vm.$snc.stopPullDownRefresh({
+            msg: `更新了${10}条信息`
+          });
+        }, 500);
+      }
+    });
+    crossEvent.on('book.platform', data => {
+      vm.platform = data
+    })
   }
 };
 </script>
@@ -167,11 +191,23 @@ export default {
 .part-5 {
   padding: 0.3rem;
 }
+.part-5 .save {
+  color: #000;
+  font-size: .3rem;
+  border-radius: 1rem;
+  background: linear-gradient(90deg, rgb(247, 172, 19) , rgba(248, 228, 11, 1));
+}
 .loan,
 .remind {
   width: 100%;
 }
 .icon {
   padding-right: 0.3rem;
+}
+.platform-logo {
+  width: .4rem;
+  height: .4rem;
+  object-fit: cover;
+  border-radius: 4px;
 }
 </style>

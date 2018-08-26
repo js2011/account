@@ -12,4 +12,5 @@ import '@mfelibs/universal-framework/src/libs/apis/getUserInfo'
 import '@mfelibs/universal-framework/src/libs/apis/showToast'
 import '@mfelibs/universal-framework/src/libs/apis/getNetworkType'
 import '@mfelibs/universal-framework/src/libs/apis/URLNavigateTo'
+import '@mfelibs/universal-framework/src/libs/apis/setGlobalStorage'
 export default appSNC

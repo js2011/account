@@ -1,6 +1,6 @@
 <template>
   <div class="account-platform">
-    <mt-cell v-for="plat in platforms" :key="plat.id" :title="plat.name" is-link @click.native="select(plat.id)">
+    <mt-cell v-for="plat in platforms" :key="plat.id" :title="plat.name" is-link @click.native="select(plat)">
       <span slot="icon">
         <img class="icon" :src="plat.logo">
       </span>
@@ -8,6 +8,8 @@
   </div>
 </template>
 <script>
+import crossEvent from  "@mfelibs/universal-framework/src/libs/apis/crossEvent";
+
 export default {
   components: {},
   data() {
@@ -16,9 +18,14 @@ export default {
     };
   },
   methods: {
-    select(id) {
-      console.log(id);
-      this.$snc.navigateBack();
+    select(plat) {
+      let vm = this;
+      crossEvent.trigger('book.platform', {
+        data: plat,
+        success(res) {
+          vm.$snc.navigateBack();
+        }
+      })
     }
   },
   created() {

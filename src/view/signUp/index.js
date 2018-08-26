@@ -20,11 +20,11 @@ let vm = new Vue({
 })
 
 appSNC.ready(data => {
-  appSNC.hideLoading()
-  appSNC.enablePullDownRefresh({
-    theme: 'worldcup',
-    success (response) {
-			console.log('下拉刷新启用成功！')
-		}
-  })
+  // appSNC.hideLoading()
+  // appSNC.enablePullDownRefresh({
+  //   theme: 'worldcup',
+  //   success (response) {
+	// 		console.log('下拉刷新启用成功！')
+	// 	}
+  // })
 })

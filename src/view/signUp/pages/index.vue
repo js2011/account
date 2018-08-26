@@ -2,7 +2,7 @@
   <div class="sign-up-page">
     <span class="title">注册</span>
     <span class="info">欢迎使用黄金钱包</span>
-    <mt-field class="phone" label="+86" type="tel" placeholder="请输入手机号" v-model="phone"></mt-field>
+    <mt-field :state="state ? 'success' : 'error'" class="phone" label="+86" type="tel" placeholder="请输入手机号" v-model="phone"></mt-field>
     <div class="next">
       <span @click="jump">下一步</span>
     </div>
@@ -20,7 +20,13 @@ export default {
   },
   methods: {
     jump () {
-      this.$snc.URLNavigateTo({id: 'sign-in', action: 'hybrid', title: '注册'})
+      if (!this.state) return;
+      this.$snc.URLNavigateTo({id: 'sign-in', action: 'hybrid', title: '注册', ext: {phone: this.phone}});
+    }
+  },
+  computed: {
+    state() {
+      return /^1[3|4|5|8][0-9]\d{8}$/.test(this.phone);
     }
   }
 }

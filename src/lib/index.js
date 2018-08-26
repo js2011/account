@@ -73,7 +73,7 @@ export default {
     response = this.strToObject(response);
     // errDescription 别名
     response.errMsg = response.errDescription;
-
+    
     // 网络接口包含 statusCode 接口，单独处理
     if (name === 'fetch') {
       if (response.errCode === undefined) {
@@ -119,7 +119,12 @@ export default {
       }
     } else {
       // 通用接口
-      if (response.errCode == '0') {
+      if (response.errCode === undefined) {
+        // 兼容不同情况 by zhaopeng
+        this.isFunction(postHook) && postHook(response);
+        options.success && options.success(response);
+        resolve(response);
+      } else if (response.errCode == '0') {
         this.isFunction(postHook) && postHook(response);
         options.success && options.success(response.data, options);
         resolve(response.data);

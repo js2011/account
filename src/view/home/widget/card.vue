@@ -40,7 +40,10 @@ export default {
     border-bottom: 1px solid rgb(247, 247, 250);
   }
   .header .icon {
-    width: .8rem;
+    width: .4rem;
+    height: .4rem;
+    object-fit: cover;
+    border-radius: 4px;
   }
   .header .title {
     font-weight: 500;
