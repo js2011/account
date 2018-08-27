@@ -13,8 +13,8 @@
         <span class="super">{{moment(data.repaymentDate).format('YYYY-MM-DD')}}</span>
         <span class="sub">剩余还款日期</span>
       </div>
-      <div class="option">
-        <span>设为以还</span>
+      <div class="option" @click="repay(data)">
+        <span :class="data.repaymentStatus ? 'disabled' : ''">{{data.repaymentStatus ? '已还' : '设为已还'}}</span>
       </div>
     </div>
   </div>
@@ -25,6 +25,11 @@ export default {
   props: {data: Object},
   data() {
     return {moment}
+  },
+  methods: {
+    repay(data) {
+      this.$emit('repay', data);
+    }
   }
 }
 </script>
@@ -65,9 +70,13 @@ export default {
     font-size: .25rem;
     opacity: .6;
   }
-  .option span {
-    border-radius: .4rem;
+  .option .disabled {
     background: rgb(117, 173, 255);
+  }
+  .option span {
+    width: 1.1rem;
+    border-radius: .4rem;
+    background: rgb(44, 123, 254);
     color: #fff;
     opacity: .8;
     font-size: .25rem;

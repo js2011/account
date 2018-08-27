@@ -26,11 +26,12 @@
       </div>
     </div>
     <div class="accounts">
-      <card v-for="data in homeData.list" :key="data.id" :data="data" style="margin: .2rem 0;"></card>
+      <card v-for="data in homeData.list" :key="data.id" :data="data" @repay="repay" style="margin: .2rem 0;"></card>
     </div>
   </div>
 </template>
 <script>
+import crossEvent from  "@mfelibs/universal-framework/src/libs/apis/crossEvent";
 import Card from '../widget/card'
 import moment from 'moment'
 export default {
@@ -54,9 +55,29 @@ export default {
         }, 500)
       }
     })
-    this.loadData()
+    this.loadData();
+    crossEvent.on('book.signIn', data => {
+      vm.$snc.pageReload();
+    })
   },
   methods: {
+    repay(data) {
+      if (data.repaymentStatus) return;
+      let vm = this
+      this.$snc.fetch({
+        url: 'http://res.txingdai.com/account/repay_status',
+        method: 'POST',
+        data: {
+          id: data.id,
+          status: 1
+        },
+        success(res) {
+          if (res.code === 10200) {
+            vm.loadData();
+          }
+        }
+      })
+    },
     loadData() {
       let vm = this
       this.$snc.fetch({
@@ -72,6 +93,7 @@ export default {
       this.$snc.setGlobalStorage({
         user: {}
       })
+      this.$snc.pageReload()
     },
     addOne () {
       if (this.user && this.user.phone) {

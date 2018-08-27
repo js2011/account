@@ -11,6 +11,7 @@
 </template>
 <script>
 import MtField from "../components/field";
+import crossEvent from  "@mfelibs/universal-framework/src/libs/apis/crossEvent";
 
 export default {
   inject: ['ext'],
@@ -35,8 +36,14 @@ export default {
           if (res.code === 10200){
             vm.$snc.setGlobalStorage({
               user: {phone: vm.ext.phone}
-            })
-            vm.$snc.URLNavigateTo({id: 'account', actionType: 100, title: '记账'})
+            });
+            crossEvent.trigger('book.signIn', {
+              data: {},
+              success(res) {
+                vm.$snc.URLNavigateTo({id: 'account', actionType: 100, title: '记账'});
+              }
+            });
+            // vm.$snc.URLNavigateTo({id: 'account', actionType: 100, title: '记账'})
           }
         }
       })
