@@ -39,6 +39,10 @@ export default {
             });
             crossEvent.trigger('book.signIn', {
               data: {},
+              success(res) {}
+            });
+            crossEvent.trigger('book.homeReload', {
+              data: {},
               success(res) {
                 vm.$snc.URLNavigateTo({id: 'account', actionType: 100, title: '记账'});
               }

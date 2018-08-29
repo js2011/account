@@ -140,7 +140,13 @@ export default {
         success(res) {
           if (res.code === 10200) {
             // vm.$snc.URLNavigateTo({id: 'account', action: 'hybrid', title: '记账'})
-            vm.$snc.navigateBack();
+            // vm.$snc.navigateBack();
+            crossEvent.trigger('book.homeReload', {
+              data: {},
+              success(res) {
+                vm.$snc.navigateBack();
+              }
+            });
           }
         }
       })

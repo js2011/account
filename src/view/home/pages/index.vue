@@ -1,6 +1,6 @@
 <template>
   <div class="account-home">
-    <button @click="logout">退出登录</button>
+    <!-- <button @click="logout">退出登录</button> -->
     <div class="banner">
       <div class="banner-top">
         <span class="sp1">记账</span>
@@ -56,7 +56,7 @@ export default {
       }
     })
     this.loadData();
-    crossEvent.on('book.signIn', data => {
+    crossEvent.on('book.homeReload', data => {
       vm.$snc.pageReload();
     })
   },
