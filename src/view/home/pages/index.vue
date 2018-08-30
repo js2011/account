@@ -3,9 +3,10 @@
     <!-- <button @click="logout">退出登录</button> -->
     <div class="banner">
       <div class="banner-top">
-        <span class="sp1">记账</span>
+        <!-- <span class="sp1">记账</span> -->
+        <span class="sp1"></span>
         <span class="sp2">近30天应还(元)</span>
-        <span class="sp3">{{this.homeData.repayMoney}}</span>
+        <span class="sp3">{{(this.homeData.repayMoney || 0).toFixed(1)}}</span>
       </div>
       <div class="banner-bottom">
         <div class="date">
@@ -14,7 +15,7 @@
         </div>
         <div class="allmoney">
           <span class="allmoney-sp1">应还总额(元)</span>
-          <span class="allmoney-sp2">{{this.homeData.total30Money}}</span>
+          <span class="allmoney-sp2">{{(this.homeData.total30Money || 0).toFixed(1)}}</span>
         </div>
       </div>
     </div>
@@ -26,6 +27,9 @@
       </div>
     </div>
     <div class="accounts">
+      <div class="demo" v-if="!homeData.list || homeData.list.length === 0">
+        <img src="../../../img/demo.png">
+      </div>
       <card v-for="data in homeData.list" :key="data.id" :data="data" @repay="repay" style="margin: .2rem 0;"></card>
     </div>
   </div>
@@ -45,6 +49,12 @@ export default {
   },
   created () {
     let vm = this
+    vm.$snc.enablePullDownRefresh({
+      // theme: 'worldcup',
+      success (response) {
+        console.log('下拉刷新启用成功！')
+      }
+    });
     vm.$snc.onPullDownRefresh({
       success () {
         vm.loadData();
@@ -118,7 +128,7 @@ export default {
   .banner-top .sp1 {
     font-size: .4rem;
     font-weight: 700;
-    padding-top: 1.1rem;
+    padding-top: 0.9rem;
   }
   .banner-top .sp2 {
     opacity: .5;
@@ -163,5 +173,11 @@ export default {
   }
   .accounts {
     margin: .6rem .3rem;
+  }
+  .demo {
+    width: 100%;
+  }
+  .demo>img {
+    width: 100%;
   }
 </style>

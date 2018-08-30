@@ -19,7 +19,14 @@ export default {
   },
   methods: {
     send() {
-      this.$snc.navigateBack();
+      let vm = this;
+      this.$snc.showModal({
+        title: '谢谢您的反馈~',
+        success(data) {
+          debugger
+          vm.$snc.navigateBack();
+        }
+      });
     }
   },
   computed: {},

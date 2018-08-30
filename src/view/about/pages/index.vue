@@ -2,12 +2,12 @@
   <div class="account-feedback">
     <div class="part-1">
       <div class="logo">
-        <img src="../../../img/head.png"> 
+        <img src="../../../img/logo.png">
       </div>
     </div>
     <div class="part-2">
       <div class="info">
-        <p>黄金钱包：v1.0.0</p>
+        <p>有钱记：v1.0.0</p>
       </div>
     </div>
   </div>
@@ -53,6 +53,7 @@ export default {
 }
 .logo img {
   width: 2rem;
+  border-radius: .1rem;
 }
 .info {
   text-align: center;

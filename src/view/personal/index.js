@@ -10,6 +10,9 @@ import { Button, Cell } from 'mint-ui';
 Vue.component(Cell.name, Cell);
 Vue.component(Button.name, Button);
 
+import * as apis from '~/apis';
+appSNC.init('app', apis);
+
 // 引入css
 import '~/css/reset.css'
 import '~/css/iconfont.css'

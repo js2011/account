@@ -4,7 +4,7 @@
     <span class="info">请输入 {{ext.phone}} 收到的验证码</span>
     <mt-field class="code" type="number" placeholder="验证码" v-model="code"></mt-field>
     <div class="next">
-      <span class="get-code" @click="getCode">获取验证码</span>
+      <span :class="coded ? '' : 'get-code'" @click="getCode">{{coded ? '剩余(' + time + ')秒' : '获取验证码'}}</span>
       <span class="sign-in" @click="signIn">登录</span>
     </div>
   </div>
@@ -18,7 +18,9 @@ export default {
   components: {MtField},
   data () {
     return {
-      code: ''
+      time: 120,
+      code: '',
+      coded: false
     }
   },
   methods: {
@@ -54,16 +56,29 @@ export default {
     },
     getCode() {
       let vm = this
+      if (vm.coded) return;
       this.$snc.fetch({
         url: 'http://res.txingdai.com/account/code',
         method: 'GET',
         data: {
           phone: vm.ext.phone,
-          develop: true
+          develop: false
         },
         success(res) {
-          vm.code = res.data
-          debugger
+          if (res.code === 10200) {
+            vm.coded = true;
+            let timer = setInterval(() => {
+              vm.time--
+              if (vm.time === 0) {
+                clearInterval(timer);
+                vm.coded = false;
+                vm.time = 120;
+              }
+            }, 1000)
+          } else {
+            vm.coded = false
+          }
+          // vm.code = res.data
         }
       })
     }

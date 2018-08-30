@@ -6,7 +6,7 @@
     </div>
     <div class="content">
       <div class="money">
-        <span class="super">{{data.repaymentMoney}}</span>
+        <span class="super">{{(+data.repaymentMoney).toFixed(1)}}</span>
         <span class="sub">应还金额(元)</span>
       </div>
       <div class="date">

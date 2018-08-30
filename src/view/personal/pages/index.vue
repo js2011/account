@@ -33,7 +33,8 @@ export default {
       let vm = this;
       switch (type) {
         case 1:
-          window.location = 'weixin://';
+          // window.location = 'weixin://';
+          vm.$snc.openUrl();
           break;
         case 2:
           vm.$snc.URLNavigateTo({id: 'feedback', action: 'hybrid', title: '意见反馈'});
