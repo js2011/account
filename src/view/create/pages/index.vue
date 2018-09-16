@@ -201,7 +201,7 @@ export default {
   color: #000;
   font-size: .3rem;
   border-radius: 1rem;
-  background: linear-gradient(90deg, rgb(247, 172, 19) , rgba(248, 228, 11, 1));
+  background: linear-gradient(90deg, rgb(250, 82, 119) , rgba(234, 117, 107, 1));
 }
 .loan,
 .remind {

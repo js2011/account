@@ -63,15 +63,15 @@ export default {
 .sendBtn {
   height: 1rem;
   line-height: 1rem;
-  color: #000;
+  color: #fff;
   margin: 0.3rem;
   padding: 0 .4rem;
   border-radius: 1rem;
-  background: linear-gradient(90deg, rgb(247, 172, 19) , rgba(248, 228, 11, 1));
+  background: linear-gradient(90deg, rgb(250, 82, 119) , rgba(234, 117, 107, 1));
   font-size: .35rem;
   font-weight: 700;
   text-align: center;
-  border-right: 1px solid rgba(248, 228, 11, 1);
-  /* box-shadow: .01rem .03rem .2rem rgb(247, 172, 19); */
+  border-right: 1px solid rgba(234, 117, 107, 1);
+  /* box-shadow: .01rem .03rem .2rem rgb(250, 82, 119); */
 }
 </style>

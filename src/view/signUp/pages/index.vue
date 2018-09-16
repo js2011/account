@@ -56,7 +56,8 @@ export default {
     width: 2.3rem;
     height: 1rem;
     line-height: 1rem;
-    background: rgb(255, 215, 25);
+    color: #fff;
+    background: rgb(250, 82, 119);
     border-radius: .5rem;
     font-weight: 500;
   }

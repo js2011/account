@@ -2,7 +2,7 @@
   <div class="account-personal">
     <div class="part-1">
       <div class="banner">
-        <img src="../../../img/banner.png">
+        <img src="../../../img/banner_blue.png">
         <div class="head">
           <img src="../../../img/head.png">
           <span class="user">{{user.phone || ''}}</span>
@@ -114,6 +114,7 @@ export default {
   margin-top: 0.1rem;
 }
 .head .title {
+  color: #fff;
   font-size: .25rem;
   font-weight: 500;
   vertical-align: super;

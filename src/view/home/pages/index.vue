@@ -118,11 +118,11 @@ export default {
 <style scoped>
   .banner-top {
     height: 4.2rem;
-    background: linear-gradient(90deg, rgba(250, 210, 11, 1) , rgb(250, 210, 11));
+    background: linear-gradient(90deg, rgba(104, 50, 222, 1) , rgb(58, 94, 224));
   }
   .banner-top span {
     display: block;
-    color: #000;
+    color: #fff;
     text-align: center;
   }
   .banner-top .sp1 {
@@ -143,11 +143,11 @@ export default {
     justify-content: space-around;
     align-items: center;
     height: 1.4rem;
-    background: linear-gradient(90deg, rgba(250, 226, 63, 1) , rgb(250, 226, 63));
+    background: linear-gradient(90deg, rgba(146, 108, 233, 1) , rgb(109, 138, 235));
   }
   .banner-bottom span {
     display: block;
-    color: #000;
+    color: #fff;
     text-align: center;
   }
   .date .date-sp1, .allmoney .allmoney-sp1 {
@@ -160,16 +160,16 @@ export default {
   .addBtn {
     height: 1rem;
     line-height: 1rem;
-    color: #000;
+    color: #fff;
     margin: 0.3rem;
     padding: 0 .4rem;
     border-radius: 1rem;
-    background: linear-gradient(90deg, rgb(247, 172, 19) , rgba(248, 228, 11, 1));
+    background: linear-gradient(90deg, rgb(250, 82, 119) , rgba(234, 117, 107, 1));
     font-size: .35rem;
     font-weight: 700;
     text-align: center;
-    border-right: 1px solid rgba(248, 228, 11, 1);
-    box-shadow: .01rem .03rem .2rem rgb(247, 172, 19);
+    border-right: 1px solid rgba(234, 117, 107, 1);
+    box-shadow: .01rem .03rem .2rem rgb(250, 82, 119);
   }
   .accounts {
     margin: .6rem .3rem;
