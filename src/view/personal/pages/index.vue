@@ -46,7 +46,7 @@ export default {
     },
     logout() {
       let vm = this;
-      if (this.user.phone) {
+      if (this.user && this.user.phone) {
         this.$snc.setGlobalStorage({
           user: {}
         });
