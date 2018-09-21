@@ -2,12 +2,12 @@
   <div class="account-feedback">
     <div class="part-1">
       <div class="logo">
-        <img src="../../../img/logo.png">
+        <img src="../../../img/logo_blue.png">
       </div>
     </div>
     <div class="part-2">
       <div class="info">
-        <p>有钱记：v1.0.0</p>
+        <p>贷友记：v1.0.0</p>
       </div>
     </div>
   </div>

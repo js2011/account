@@ -1,7 +1,7 @@
 <template>
   <div class="sign-up-page">
     <span class="title">注册</span>
-    <span class="info">欢迎使用有钱记</span>
+    <span class="info">欢迎使用贷友记</span>
     <mt-field :state="state ? 'success' : 'error'" class="phone" label="+86" type="tel" placeholder="请输入手机号" v-model="phone"></mt-field>
     <div class="next">
       <span @click="jump">下一步</span>
@@ -21,7 +21,7 @@ export default {
   methods: {
     jump () {
       if (!this.state) return;
-      this.$snc.URLNavigateTo({id: 'sign-in', action: 'hybrid', title: '注册', ext: {phone: this.phone}});
+      this.$snc.URLNavigateTo({id: 'blue_sign-in', action: 'hybrid', title: '注册', ext: {phone: this.phone}});
     }
   },
   computed: {

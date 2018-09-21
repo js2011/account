@@ -37,10 +37,10 @@ export default {
           vm.$snc.openUrl();
           break;
         case 2:
-          vm.$snc.URLNavigateTo({id: 'feedback', action: 'hybrid', title: '意见反馈'});
+          vm.$snc.URLNavigateTo({id: 'blue_feedback', action: 'hybrid', title: '意见反馈'});
           break;
         case 3:
-          vm.$snc.URLNavigateTo({id: 'about', action: 'hybrid', title: '关于'});
+          vm.$snc.URLNavigateTo({id: 'blue_about', action: 'hybrid', title: '关于'});
           break;
       }
     },
@@ -57,7 +57,7 @@ export default {
           }
         });
       } else {
-        this.$snc.URLNavigateTo({id: 'sign-up', actionType: 99, title: '注册'});
+        this.$snc.URLNavigateTo({id: 'blue_sign-up', actionType: 99, title: '注册'});
       }
     }
   },
@@ -110,6 +110,7 @@ export default {
   width: 100%;
 }
 .head .user {
+  color: #fff;
   display: block;
   margin-top: 0.1rem;
 }

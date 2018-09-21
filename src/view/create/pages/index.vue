@@ -152,7 +152,7 @@ export default {
       })
     },
     selectPlatform() {
-      this.$snc.URLNavigateTo({id: 'platform', action: 'hybrid', title: '收入-借款'})
+      this.$snc.URLNavigateTo({id: 'blue_platform', action: 'hybrid', title: '收入-借款'})
     }
   },
   computed: {

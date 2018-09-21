@@ -107,10 +107,10 @@ export default {
     },
     addOne () {
       if (this.user && this.user.phone) {
-        this.$snc.URLNavigateTo({id: 'account-create', action: 'hybrid', title: '收入-借款'});
+        this.$snc.URLNavigateTo({id: 'blue_account-create', action: 'hybrid', title: '收入-借款'});
         return
       }
-      this.$snc.URLNavigateTo({id: 'sign-up', actionType: 99, title: '注册'});
+      this.$snc.URLNavigateTo({id: 'blue_sign-up', actionType: 99, title: '注册'});
     }
   }
 }
