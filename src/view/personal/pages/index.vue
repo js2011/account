@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="info">
-        <mt-cell title="给APP评论" is-link @click.native="jump(1)"></mt-cell>
+        <!-- <mt-cell title="给APP评论" is-link @click.native="jump(1)"></mt-cell> -->
         <mt-cell title="意见反馈" is-link @click.native="jump(2)"></mt-cell>
         <mt-cell title="版本号" is-link @click.native="jump(3)"></mt-cell>
       </div>
